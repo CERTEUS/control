@@ -52,8 +52,8 @@ get_b64() {
     base64 -w 0 <"${GH_APP_PRIVATE_KEY_PATH}" 2>/dev/null || base64 <"${GH_APP_PRIVATE_KEY_PATH}" 2>/dev/null
     return 0
   fi
-  if [[ -f "${REPO_ROOT}/.control/github-app-private-key.pem" ]]; then
-    base64 -w 0 <"${REPO_ROOT}/.control/github-app-private-key.pem" 2>/dev/null || base64 <"${REPO_ROOT}/.control/github-app-private-key.pem" 2>/dev/null
+  if [[ -f "${REPO_ROOT}/.control/keys/github-app-private-key.pem" ]]; then
+    base64 -w 0 <"${REPO_ROOT}/.control/keys/github-app-private-key.pem" 2>/dev/null || base64 <"${REPO_ROOT}/.control/keys/github-app-private-key.pem" 2>/dev/null
     return 0
   fi
   echo "Brak klucza prywatnego. Ustaw GH_APP_PRIVATE_KEY(_B64) lub GH_APP_PRIVATE_KEY_PATH." >&2
@@ -71,4 +71,3 @@ if [[ $WRITE -eq 1 ]]; then
 else
   printf '%s\n' "${line}"
 fi
-
