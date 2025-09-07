@@ -1,1 +1,2 @@
-# control
+# CONTROL
+Panel sterujący CERTEUS.
