@@ -1,0 +1,34 @@
+{
+  "cSpell.language": "en,pl",
+  "cSpell.enabledLanguageIds": [
+    "markdown",
+    "plaintext",
+    "git-commit"
+  ],
+  "cSpell.diagnosticLevel": "Information",
+  "cSpell.ignorePaths": [
+    ".control/**",
+    "**/.git/**",
+    "node_modules/**",
+    "dist/**",
+    "build/**"
+  ],
+  "cSpell.words": [
+    "repozytorium",
+    "repozytoriów",
+    "sekretów",
+    "hooki",
+    "hooków",
+    "markdownlint",
+    "precommit",
+    "PEM",
+    "JWT",
+    "GH_APP",
+    "INSTALLATION_ID",
+    "BASE64",
+    "remote-bot",
+    "with-gh",
+    "VSCode",
+    "PowerShell"
+  ]
+}
