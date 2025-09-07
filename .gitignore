@@ -2,6 +2,7 @@
 .control/
 .env
 .env.local
+AGENT.md
 *.pem
 token.json
 
