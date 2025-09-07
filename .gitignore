@@ -1,0 +1,14 @@
+# Lokalna przestrzeń na sekrety i artefakty (niecommitowane)
+.control/
+.env
+.env.local
+*.pem
+token.json
+
+# Systemowe / IDE
+.DS_Store
+.idea/
+.vscode/
+node_modules/
+dist/
+build/
