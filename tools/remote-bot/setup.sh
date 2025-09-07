@@ -32,7 +32,8 @@ mkdir -p "${REPO_ROOT}/.control"
 chmod 700 "${REPO_ROOT}/.control" || true
 
 if [[ $WRITE_KEY -eq 1 ]]; then
-  key_path="${REPO_ROOT}/.control/github-app-private-key.pem"
+  mkdir -p "${REPO_ROOT}/.control/keys"
+  key_path="${REPO_ROOT}/.control/keys/github-app-private-key.pem"
   umask 077
   if [[ -n "${GH_APP_PRIVATE_KEY_B64:-}" ]]; then
     printf '%s' "${GH_APP_PRIVATE_KEY_B64}" | tr -d '\n' | base64 -d >"${key_path}"

@@ -6,7 +6,7 @@ set -euo pipefail
 # - GH_APP_PRIVATE_KEY_B64 (base64 całego PEM)
 # - GH_APP_PRIVATE_KEY (PEM z \n lub prawdziwymi nowymi liniami)
 # - GH_APP_PRIVATE_KEY_PATH (ścieżka do PEM)
-# - domyślnie: .control/github-app-private-key.pem
+# - domyślnie: .control/keys/github-app-private-key.pem
 # Wymagane: GH_APP_ID, GH_APP_INSTALLATION_ID
 #
 # Użycie:
@@ -152,8 +152,8 @@ b64url_encode() {
 
 write_key_if_env() {
   # Zwraca ścieżkę do PEM w stdout
-  local key_path="${REPO_ROOT}/.control/github-app-private-key.pem"
-  mkdir -p "${REPO_ROOT}/.control"
+  local key_path="${REPO_ROOT}/.control/keys/github-app-private-key.pem"
+  mkdir -p "${REPO_ROOT}/.control/keys"
   umask 077
 
   if [[ -n "${GH_APP_PRIVATE_KEY_B64:-}" ]]; then
