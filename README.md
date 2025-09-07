@@ -1,4 +1,4 @@
-# CONTROL — autonomiczne repo sterujące
+# CONTROL — AUTOREPO
 
 To repozytorium pełni rolę autonomicznego „control plane”.
 
