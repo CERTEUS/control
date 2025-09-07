@@ -1,2 +1,2 @@
 # CONTROL
-Panel sterujący CERTEUS.
+Panel BOT CERTEUS.
