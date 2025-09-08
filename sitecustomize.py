@@ -4,7 +4,7 @@ from pathlib import Path
 
 try:
     repo = Path(__file__).resolve().parent
-    scripts = (repo / ".venv" / "Scripts")
+    scripts = repo / ".venv" / "Scripts"
     if scripts.exists():
         p = os.environ.get("PATH", "")
         sp = str(scripts)
@@ -12,4 +12,3 @@ try:
             os.environ["PATH"] = sp + os.pathsep + p
 except Exception:
     pass
-

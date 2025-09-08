@@ -3,12 +3,12 @@ set -Eeuo pipefail
 # Wrapper delegujący do wersji w submodule CERTEUS.
 DIR="$(cd "$(dirname "$0")" && pwd)"
 ROOT=""
-for up in "" ".." "../.."; do
-  CAND="$DIR/$up/certeus/tools/remote-bot/clone-repo.sh"
+for up in "" ".." "../.." "../../.."; do
+  CAND="$DIR/$up/certeus/tools/agents/install.sh"
   if [ -f "$CAND" ]; then ROOT="$DIR/$up"; break; fi
 done
 if [ -z "$ROOT" ]; then
-  echo "Nie znaleziono certeus/tools/remote-bot/clone-repo.sh względem $DIR" >&2
+  echo "Nie znaleziono certeus/tools/agents/install.sh względem $DIR" >&2
   exit 2
 fi
-exec "$ROOT/certeus/tools/remote-bot/clone-repo.sh" "$@"
+exec "$ROOT/certeus/tools/agents/install.sh" "$@"

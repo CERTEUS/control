@@ -18,3 +18,17 @@ build/
 AGENT.md
 worklog.md
 devops/README.md
+
+# Generated outputs (keep control clean)
+exports/
+out/
+
+# Dev caches and virtualenvs
+.hypothesis/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+.venv/
+
+# Local static previews (control only)
+static/

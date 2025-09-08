@@ -1,7 +1,7 @@
 SHELL := /usr/bin/env bash
 
 .PHONY: setup token token-json login list clone secret-pack secret-write lint agent-install agent-once agent-loop agent-stop help \
-	codex-build codex-start codex-stop codex-shell codex-status codex-exec
+	codex-build codex-start codex-stop codex-shell codex-status codex-exec agents-auto wait-pr-green
 
 help:
 	@echo "Dostępne cele: setup, token, token-json, login, list, clone owner=<o> repo=<r>, secret-pack, secret-write"
@@ -36,23 +36,29 @@ secret-pack:
 secret-write:
 	@tools/remote-bot/pack-secret.sh --write
 
-lint:
-	@bash tools/verify-markdown.sh && echo "Markdown OK"
-	@which shellcheck >/dev/null 2>&1 && shellcheck -S style tools/*.sh tools/remote-bot/*.sh tools/remote-agent/*.sh || echo "(pomijam shellcheck)"
-	@which cspell >/dev/null 2>&1 && cspell --no-progress "**/*.md" || echo "(pomijam cspell)"
+	lint:
+		@bash tools/verify-markdown.sh && echo "Markdown OK"
+		@which shellcheck >/dev/null 2>&1 && shellcheck -S style tools/*.sh tools/remote-bot/*.sh tools/agents/*.sh || echo "(pomijam shellcheck)"
+		@which cspell >/dev/null 2>&1 && cspell --no-progress "**/*.md" || echo "(pomijam cspell)"
+
+.PHONY: openapi-verify openapi-sync
+openapi-verify:
+	@bash tools/openapi-sync.sh verify
+
+openapi-sync:
+	@bash tools/openapi-sync.sh sync --from certeus
 
 agent-install:
-	@[ -n "$(issue)" ] || (echo "Użycie: make agent-install issue=<NR> [dry=0|1]"; exit 2)
-	@tools/remote-agent/install.sh --issue $(issue) $(if $(dry),$(if $(filter 0,$(dry)),--no-dry-run,))
+	@tools/agents/install.sh
 
 agent-once:
-	@tools/remote-agent/agent.sh --once
+	@tools/agents/run_all.sh
 
 agent-loop:
-	@tools/remote-agent/agent.sh --loop
+	@tools/agents/auto_agents.sh
 
 agent-stop:
-	@systemctl --user stop certeus-remote-agent.service || true
+	@tools/agents/stop_all.sh || true
 
 # ========================
 # Codex dev container
@@ -90,3 +96,13 @@ codex-status:
 codex-exec:
 	@[ -n "$(cmd)" ] || (echo "Użycie: make codex-exec cmd=\"cd /workspace/control && codex /status\""; exit 2)
 	@docker exec $(CONTAINER) bash -lc "$(cmd)"
+
+# ========================
+# Agents automation
+# ========================
+
+agents-auto:
+	@bash tools/agents/auto_agents.sh
+
+wait-pr-green:
+	@bash tools/remote-bot/wait-pr-green.sh $(if $(owner),--owner $(owner),) $(if $(repo),--repo $(repo),) $(if $(pr),--pr $(pr),)

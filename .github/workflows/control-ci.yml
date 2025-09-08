@@ -1,0 +1,42 @@
+name: control-ci
+
+on:
+  push:
+    branches: [ main, work/daily ]
+  pull_request:
+    branches: [ main, work/daily ]
+  workflow_dispatch:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install project deps (certeus dev)
+        run: |
+          python -m pip install -U pip wheel setuptools
+          # Install submodule package + dev deps so tests can run
+          python -m pip install -e certeus[dev]
+
+      - name: Verify Markdown spacing
+        run: |
+          bash tools/verify-markdown.sh
+
+      - name: OpenAPI sync verify (control vs certeus)
+        run: |
+          bash tools/openapi-sync.sh verify
+
+      - name: Run tests (root)
+        env:
+          PYTEST_ADDOPTS: "-q"
+        run: |
+          python -m pytest -q
+
