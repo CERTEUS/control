@@ -14,3 +14,7 @@ token.json
 node_modules/
 dist/
 build/
+# Internal docs (keep local, do not track)
+AGENT.md
+worklog.md
+devops/README.md
