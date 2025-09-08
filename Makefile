@@ -12,10 +12,10 @@ setup:
 	@tools/remote-bot/setup.sh
 
 token:
-	@tools/remote-bot/gh_app_token.sh
+	@certeus/tools/remote-bot/gh_app_token.sh
 
 token-json:
-	@tools/remote-bot/gh_app_token.sh --json | sed 's/.*/&/'
+	@certeus/tools/remote-bot/gh_app_token.sh --json | sed 's/.*/&/'
 
 login:
 	@tools/remote-bot/with-gh.sh gh auth status || true
