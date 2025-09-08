@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://certeus.ai/schemas/pca2_v1.json",
+  "title": "PCA2 Contract v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "case_id": {"type": "string", "minLength": 1},
+    "policy": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "constraints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {"type": "string"},
+          "expression": {"type": "string"},
+          "verdict": {"type": "string", "enum": ["pass", "fail", "waived"]}
+        },
+        "required": ["name", "expression", "verdict"]
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {"type": "string"},
+          "value": {"type": ["string", "number", "boolean"]}
+        },
+        "required": ["name", "value"]
+      }
+    },
+    "attestations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "subject": {"type": "string"},
+          "by": {"type": "string"},
+          "result": {"type": "string", "enum": ["pass", "fail", "info"]},
+          "at": {"type": "string", "format": "date-time"}
+        },
+        "required": ["subject", "by", "result", "at"]
+      }
+    },
+    "audit_trail": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {"type": "string"},
+          "at": {"type": "string", "format": "date-time"},
+          "actor": {"type": "string"},
+          "message": {"type": "string"}
+        },
+        "required": ["type", "at", "actor", "message"]
+      }
+    },
+    "overall_status": {"type": "string", "enum": ["pass", "fail"]},
+    "final_hash": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}
+  },
+  "required": ["case_id", "overall_status"]
+}
+
