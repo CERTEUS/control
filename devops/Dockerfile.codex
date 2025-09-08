@@ -12,3 +12,9 @@ RUN npm i -g @openai/codex@latest
 
 ENV CODEX_HOME=/root/.codex
 WORKDIR /workspace
+
+# Sensowne domyślne ustawienia gita (bezpieczne katalogi, gałąź domyślna)
+RUN git config --global init.defaultBranch main \
+ && git config --global pull.rebase false \
+ && git config --global advice.detachedHead false \
+ && git config --global --add safe.directory '*' 
