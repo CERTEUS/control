@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -Eeuo pipefail
+trap 'echo "[ERR] ${0##*/} line:${LINENO} status:$?" >&2' ERR
+# CERTEUS • Control • Lint • verify-markdown
+# PL: Waliduje puste linie wokół nagłówków i list w plikach Markdown.
+# EN: Validates blank lines around headings and lists in Markdown files.
+# File: tools/verify-markdown.sh
+# Repo: CERTEUS/control • License: MIT
+# Sections: PURPOSE • USAGE • MAIN
 
 err=0
 check_file() {
@@ -36,9 +43,28 @@ check_file() {
   ' "$f" || true
 }
 
-shopt -s nullglob
-files=(""*.md)
+shopt -s nullglob globstar
+
+# Zidentyfikuj ścieżki submodułów i pomijaj je w weryfikacji
+declare -a submods=()
+while read -r _ path; do
+  [[ -n "$path" ]] && submods+=("$path")
+done < <(git config -f .gitmodules --get-regexp path 2>/dev/null || true)
+
+# Zbierz wszystkie pliki Markdown poza katalogami wewnętrznymi
+files=(**/*.md)
 for f in "${files[@]}"; do
+  # Pomijaj dokumenty wewnętrzne, cache i submoduły
+  [[ "$f" == .control/* ]] && continue
+  [[ "$f" == AGENT.md ]] && continue
+  [[ "$f" == **/.git/** ]] && continue
+  # Pomiń wszystkie ścieżki znajdujące się w submodułach
+  for sp in "${submods[@]}"; do
+    if [[ "$f" == "$sp" || "$f" == "$sp"/* ]]; then
+      continue 2
+    fi
+  done
+
   out=$(check_file "$f") || true
   if [[ -n "$out" ]]; then printf '%s\n' "$out"; err=1; fi
 done
