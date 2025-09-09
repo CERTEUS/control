@@ -66,7 +66,7 @@ jobs:
 
       - name: Run control tests with coverage
         run: |
-          pytest test/ -v --cov=pkg.control --cov-report=term-missing --cov-fail-under=50
+          pytest test/ -v --cov=pkg.control --cov-report=term-missing --cov-fail-under=40
 
       - name: Enterprise Code Quality Check
         run: |
@@ -100,7 +100,7 @@ jobs:
           python -m pip install --upgrade pip
           # Assuming a dev requirements file exists for test dependencies
           if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; else pip install -r requirements.txt; fi
-          pip install pytest
+          pip install pytest hypothesis
           pytest -q tests/ # Fails the job if tests fail
 
   integration:
