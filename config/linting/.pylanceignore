@@ -1,0 +1,12 @@
+# Exclude nested certeus repository from Pylance analysis
+certeus/
+certeus/**
+certeus/.venv/
+certeus/**/.venv/
+certeus/**/__pycache__/
+
+# Standard exclusions
+.venv/
+__pycache__/
+*.pyc
+.git/

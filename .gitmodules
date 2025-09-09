@@ -1,4 +1,4 @@
-[submodule "certeus"]
-    path = certeus
-    url = git@github.com:CERTEUS/certeus.git
+[submodule "workspaces/certeus"]
+	path = workspaces/certeus
+	url = https://github.com/CERTEUS/certeus.git
     branch = main

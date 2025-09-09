@@ -24,8 +24,12 @@ dependencies = [
   "requests>=2.32.0",
 ]
 
+[project.scripts]
+control = "pkg.control.main:cli"
+
 [tool.setuptools]
-packages = ["control"]
+packages = ["pkg.control"]
+package-dir = {"pkg.control" = "pkg/control"}
 
 [dependency-groups]
 dev = [
@@ -42,7 +46,8 @@ exclude = [
   ".venv",
   "__pycache__",
   ".git",
-  "certeus/**",  # Exclude nested certeus repo
+  "workspaces/**",  # Exclude nested workspaces
+  "internal/secrets/**",  # Exclude secrets
 ]
 
 [tool.ruff.lint]
@@ -61,11 +66,12 @@ warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
 exclude = [
-    "certeus/",
+    "workspaces/",
+    "internal/secrets/",
 ]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["test"]
 python_files = ["test_*.py", "*_test.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]

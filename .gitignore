@@ -1,11 +1,22 @@
-# Lokalna przestrzeń na sekrety i artefakty (niecommitowane)
-.control/
+# === ENTERPRISE SECURITY ===
+# 🔐 All keys and sensitive data (never commit)
+internal/keys/
+internal/secrets/
+internal/operations/diary/
+internal/.tmp/
+
+# 🔒 Environment and credentials
 .env
 .env.local
-\.env.example
-AGENT.md
+.env.example
 *.pem
+*.key
+*_token.txt
+*_key.txt
 token.json
+credentials.json
+
+# === DEVELOPMENT ENVIRONMENT ===
 
 # Systemowe / IDE
 .DS_Store
@@ -33,7 +44,12 @@ __pycache__/
 # Local static previews (control only)
 static/
 # Control orchestration-only repo: ignore transient dirs
-/exports/
-/out/
-/static/
-/security/
+# Generated outputs (keep control clean)
+web/static/
+build/artifacts/
+test/reports/
+
+# Control orchestration-only repo: ignore transient dirs
+web/exports/
+build/out/
+internal/audit/temp/

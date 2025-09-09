@@ -8,12 +8,12 @@
   ],
   "cSpell.diagnosticLevel": "Information",
   "cSpell.ignorePaths": [
-    ".control/**",
+    "internal/**",
     "**/.git/**",
     "node_modules/**",
     "dist/**",
     "build/**",
-    "certeus/**"
+    "workspaces/**"
   ],
   "cSpell.words": [
     "repozytorium",
@@ -44,11 +44,19 @@
   "python.analysis.diagnosticMode": "workspace",
   "python.analysis.typeCheckingMode": "basic",
 
-  // Exclude certeus from Python analysis to avoid conflicts
+  // Exclude from Python analysis to avoid conflicts
   "python.analysis.exclude": [
-    "certeus/**",
+    "workspaces/**",
+    "internal/secrets/**",
     ".venv/**",
     "__pycache__/**"
+  ],
+
+  // Multi-project workspace configuration
+  "python.analysis.workspace.excludePatterns": [
+    "workspaces/certeus/.venv/**",
+    "workspaces/**/__pycache__/**",
+    "internal/secrets/**"
   ],
 
   // Ruff configuration
@@ -67,8 +75,9 @@
     "**/__pycache__": true,
     "**/*.pyc": true,
     ".venv": false,
-    "certeus/.venv": true,
-    "certeus/**/__pycache__": true
+    "workspaces/certeus/.venv": true,
+    "workspaces/**/__pycache__": true,
+    "internal/secrets": true
   },
 
   // Search exclusions
@@ -77,8 +86,9 @@
     "**/.venv": true,
     "**/node_modules": true,
     "**/__pycache__": true,
-    "certeus/.venv/**": true,
-    "certeus/**/__pycache__": true
+    "workspaces/certeus/.venv/**": true,
+    "workspaces/**/__pycache__": true,
+    "internal/secrets/**": true
   },
 
   // Watcher exclusions for performance
@@ -88,8 +98,9 @@
     "**/.venv/**": true,
     "**/node_modules/**": true,
     "**/__pycache__/**": true,
-    "certeus/.venv/**": true,
-    "certeus/**/__pycache__/**": true
+    "workspaces/certeus/.venv/**": true,
+    "workspaces/**/__pycache__/**": true,
+    "internal/secrets/**": true
   },
 
   // Editor settings
@@ -120,6 +131,17 @@
 
   // Formatting
   "python.formatting.provider": "none",
+
+  // Black Formatter configuration
+  "black-formatter.interpreter": [
+    "F:/projekty/control/.venv/Scripts/python.exe"
+  ],
+  "black-formatter.path": [
+    "F:/projekty/control/.venv/Scripts/black.exe"
+  ],
+  "black-formatter.importStrategy": "fromEnvironment",
+  "black-formatter.showNotifications": "off",
+
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.formatOnSave": true,

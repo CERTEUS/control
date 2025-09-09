@@ -158,6 +158,6 @@ jobs:
 
       - name: Test integration
         run: |
-          python -m control.main health
-          python -m control.main status
-          python -m control.main project list
+          python -m pkg.control.main health
+          python -m pkg.control.main status
+          python -m pkg.control.main project list

@@ -6,11 +6,56 @@
     },
     {
       "name": "certeus",
-      "path": "certeus"
+      "path": "workspaces/certeus"
     }
   ],
   "settings": {
-    "python.defaultInterpreterPath": "./control/.venv/Scripts/python.exe"
+    "python.defaultInterpreterPath": "./control/.venv/Scripts/python.exe",
+    "python.terminal.activateEnvironment": true,
+
+    // Workspace isolation
+    "python.analysis.exclude": [
+      "workspaces/**",
+      "internal/secrets/**",
+      ".venv/**",
+      "__pycache__/**"
+    ],
+
+    // Formatter configuration
+    "[python]": {
+      "editor.defaultFormatter": "charliermarsh.ruff"
+    },
+
+    // Black Formatter (backup configuration)
+    "black-formatter.interpreter": [
+      "F:/projekty/control/.venv/Scripts/python.exe"
+    ],
+    "black-formatter.path": [
+      "F:/projekty/control/.venv/Scripts/black.exe"
+    ],
+
+    // Performance optimizations
+    "files.exclude": {
+      "**/.git": true,
+      "**/.DS_Store": true,
+      "**/Thumbs.db": true,
+      "**/__pycache__": true,
+      "**/*.pyc": true,
+      ".venv": false,
+      "workspaces/certeus/.venv": true,
+      "workspaces/**/__pycache__": true,
+      "internal/secrets/**": true
+    },
+
+    "search.exclude": {
+      "**/.git": true,
+      "**/.venv": true,
+      "**/node_modules": true,
+      "**/__pycache__": true,
+      "workspaces/certeus/.venv/**": true,
+      "workspaces/**/__pycache__": true,
+      "internal/secrets/**": true
+    }
   },
   "extensions": {
     "recommendations": [
