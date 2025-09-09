@@ -102,7 +102,7 @@ jobs:
 
       - name: Run control tests with coverage
         run: |
-          pytest tests/ -v --cov=control --cov-report=term-missing --cov-fail-under=80
+          pytest test/ -v --cov=pkg.control --cov-report=term-missing --cov-fail-under=80
 
       - name: Enterprise Code Quality Check
         run: |

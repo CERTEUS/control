@@ -1,3 +1,12 @@
+# +=====================================================================+
+# |                          CERTEUS                                    |
+# +=====================================================================+
+# | FILE: test/unit/test_formatting.py                                 |
+# | ROLE: Test file for code formatting rules                         |
+# | PLIK: test/unit/test_formatting.py                                 |
+# | ROLA: Plik testowy dla zasad formatowania kodu                     |
+# +=====================================================================+
+
 """Example file for testing code formatting rules."""
 
 from __future__ import annotations
