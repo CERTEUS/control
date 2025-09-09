@@ -128,7 +128,7 @@ class ProjectManager:
         try:
             subprocess.run(  # noqa: S603  # VS Code is trusted application
                 ["code", str(project_path)],
-                check=True,  # noqa: S607
+                check=True,
             )
             console.print(f"📂 Opened '{name}' in VS Code", style="green")
         except subprocess.CalledProcessError:
