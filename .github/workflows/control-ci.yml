@@ -23,11 +23,13 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install project deps (certeus dev)
+      - name: Install project deps (pip)
         run: |
           python -m pip install -U pip wheel setuptools
-          # Install submodule package + dev deps so tests can run
-          python -m pip install -e certeus[dev]
+          # Install submodule package (runtime deps)
+          python -m pip install -e certeus
+          # Install test/dev deps (pip safety net; pyproject uses uv groups)
+          python -m pip install pytest pytest-asyncio hypothesis openapi-spec-validator PyYAML z3-solver ruff
 
       - name: Verify Markdown spacing
         run: |
