@@ -91,10 +91,10 @@ Cel: pełna dokumentacja operacyjna i ściąga dla agentów. Ten plik jest ignor
 4) Monitor zielonego stanu: `tools/remote-bot/wait-branch-green.sh CERTEUS <repo> work/daily`.
 5) Promocja na `main` po zielonych przebiegach.
 
-### Wrappery i artefakty (Control)
+### Rola Control
 
-- Wrappery gate’ów: `scripts/gates/*` → delegują do `certeus/scripts/gates/*`.
-- Artefakty testowe: `schemas/*`, `packs/jurisdictions/PL/rules/*`, `clients/web/public/index.html`, `sdk/*`, shimy: `services/lexlog_parser/*`, `security/ra.py`.
+- Control nie przechowuje kodu produktu ani artefaktów testowych. Wszelki kod, testy i bramki należą do właściwych repozytoriów (np. `certeus`).
+- Control służy do orkiestracji (narzędzia, skrypty, polityki, dokumenty) oraz do synchronizacji/monitoringu.
 
 ### Szybki start (przeniesione z README)
 
