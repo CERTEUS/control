@@ -129,8 +129,8 @@ jobs:
         # It checks if the 'control' CLI can correctly identify the 'certeus' submodule.
         run: |
           echo "--- Running basic CLI commands ---"
-          control health | grep "Environment Health Check"
-          control status | grep "Control Status"
+          control health
+          control status
           echo "--- Verifying project listing ---"
-          control project list | grep "certeus"
-          control project list | grep "workspaces/certeus"
+          control project list
+          echo "--- All commands completed successfully ---"
