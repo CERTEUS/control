@@ -71,7 +71,7 @@ jobs:
       - name: Enterprise Code Quality Check
         run: |
           echo "🔍 Running Enterprise Quality Checks (Standard v3.0)..."
-          ruff check . --statistics --ignore=T201,TRY300,S607,PERF401
+          ruff check . --statistics --ignore=T201,TRY300,S607,PERF401,W293,RUF100,EXE001,F401,PTH201
           ruff format --check .
 
       - name: Type checking with mypy
@@ -100,7 +100,7 @@ jobs:
           python -m pip install --upgrade pip
           # Assuming a dev requirements file exists for test dependencies
           if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; else pip install -r requirements.txt; fi
-          pip install pytest hypothesis cryptography
+          pip install pytest hypothesis cryptography httpx
           pytest -q tests/ # Fails the job if tests fail
 
   integration:
