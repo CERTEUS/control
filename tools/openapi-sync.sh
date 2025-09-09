@@ -1,4 +1,19 @@
 #!/usr/bin/env bash
+# +=====================================================================+
+# |                          CERTEUS                                    |
+# +=====================================================================+
+# | FILE: tools/openapi-sync.sh                                        |
+# | ROLE: API endpoint and routing module                              |
+# | PLIK: tools/openapi-sync.sh                                        |
+# | ROLA: Moduł endpoint API i routingu                                |
+# +=====================================================================+
+
+# PL: Moduł zapewniający funkcjonalność openapi-sync
+# EN: Module providing openapi-sync functionality
+
+set -Eeuo pipefail
+trap 'echo "[ERR] $0 line:$LINENO status:$?" >&2' ERR
+
 set -Eeuo pipefail
 # Wrapper delegujący do wersji w submodule CERTEUS.
 DIR="$(cd "$(dirname "$0")" && pwd)"

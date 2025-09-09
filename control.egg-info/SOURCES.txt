@@ -1,0 +1,14 @@
+README.md
+pyproject.toml
+control/__init__.py
+control/git_manager.py
+control/github_manager.py
+control/main.py
+control/project_manager.py
+control.egg-info/PKG-INFO
+control.egg-info/SOURCES.txt
+control.egg-info/dependency_links.txt
+control.egg-info/requires.txt
+control.egg-info/top_level.txt
+tests/test_cli.py
+tests/test_control.py

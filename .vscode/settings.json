@@ -1,4 +1,5 @@
 {
+  // Spelling configuration
   "cSpell.language": "en,pl",
   "cSpell.enabledLanguageIds": [
     "markdown",
@@ -11,7 +12,8 @@
     "**/.git/**",
     "node_modules/**",
     "dist/**",
-    "build/**"
+    "build/**",
+    "certeus/**"
   ],
   "cSpell.words": [
     "repozytorium",
@@ -29,6 +31,100 @@
     "remote-bot",
     "with-gh",
     "VSCode",
-    "PowerShell"
-  ]
+    "PowerShell",
+    "certeus",
+    "pyproject",
+    "pylance"
+  ],
+
+  // Python configuration
+  "python.defaultInterpreterPath": "F:/projekty/control/.venv/Scripts/python.exe",
+  "python.terminal.activateEnvironment": true,
+  "python.analysis.autoImportCompletions": true,
+  "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.typeCheckingMode": "basic",
+
+  // Exclude certeus from Python analysis to avoid conflicts
+  "python.analysis.exclude": [
+    "certeus/**",
+    ".venv/**",
+    "__pycache__/**"
+  ],
+
+  // Ruff configuration
+  "ruff.path": [
+    "F:/projekty/control/.venv/Scripts/ruff.exe"
+  ],
+  "ruff.interpreter": [
+    "F:/projekty/control/.venv/Scripts/python.exe"
+  ],
+
+  // File associations and exclusions
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    ".venv": false,
+    "certeus/.venv": true,
+    "certeus/**/__pycache__": true
+  },
+
+  // Search exclusions
+  "search.exclude": {
+    "**/.git": true,
+    "**/.venv": true,
+    "**/node_modules": true,
+    "**/__pycache__": true,
+    "certeus/.venv/**": true,
+    "certeus/**/__pycache__": true
+  },
+
+  // Watcher exclusions for performance
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/.venv/**": true,
+    "**/node_modules/**": true,
+    "**/__pycache__/**": true,
+    "certeus/.venv/**": true,
+    "certeus/**/__pycache__/**": true
+  },
+
+  // Editor settings
+  "editor.formatOnSave": true,
+  "editor.rulers": [100],
+  "editor.insertSpaces": true,
+  "editor.tabSize": 4,
+
+  // Git configuration
+  "git.ignoreLimitWarning": true,
+  "git.autofetch": true,
+
+  // Terminal configuration
+  "terminal.integrated.cwd": "${workspaceFolder}",
+  "terminal.integrated.env.windows": {
+    "PYTHONPATH": "${workspaceFolder}"
+  },
+
+  // Pylance specific settings
+  "pylance.insidersChannel": "off",
+
+  // Testing
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestArgs": [
+    "tests"
+  ],
+
+  // Formatting
+  "python.formatting.provider": "none",
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
+  }
 }

@@ -1,4 +1,19 @@
 #!/usr/bin/env bash
+# +=====================================================================+
+# |                          CERTEUS                                    |
+# +=====================================================================+
+# | FILE: tools/remote-bot/gh_app_token.sh                             |
+# | ROLE: Shell script for automation                                  |
+# | PLIK: tools/remote-bot/gh_app_token.sh                             |
+# | ROLA: Skrypt shell do automatyzacji                                |
+# +=====================================================================+
+
+# PL: Moduł zapewniający funkcjonalność gh_app_token
+# EN: Module providing gh_app_token functionality
+
+set -Eeuo pipefail
+trap 'echo "[ERR] $0 line:$LINENO status:$?" >&2' ERR
+
 set -euo pipefail
 
 # Generuje JWT dla GitHub App i pobiera access token instalacji.

@@ -1,0 +1,76 @@
+# +=====================================================================+
+# |                         CONTROL — MANAGER                           |
+# +=====================================================================+
+# | FILE: pyproject.toml                                                |
+# | ROLE:                                                               |
+# |  PL: Konfiguracja projektu kontrolnego dla zarządzania repo         |
+# |  EN: Control project configuration for repository management        |
+# +=====================================================================+
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "control"
+version = "0.1.0"
+description = "Control workspace for managing multiple repositories"
+requires-python = ">=3.11"
+dependencies = [
+  "click>=8.0",
+  "rich>=13.0",
+  "gitpython>=3.1",
+  "pyyaml>=6.0",
+  "requests>=2.32.0",
+]
+
+[tool.setuptools]
+packages = ["control"]
+
+[dependency-groups]
+dev = [
+  "ruff>=0.5",
+  "pytest>=8",
+  "pre-commit>=3.7",
+  "mypy>=1.0",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+exclude = [
+  ".venv",
+  "__pycache__",
+  ".git",
+  "certeus/**",  # Exclude nested certeus repo
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "ANN", "S", "B", "A", "COM", "C4", "DTZ", "T10", "DJ", "EM", "EXE", "FA", "ISC", "ICN", "G", "INP", "PIE", "T20", "PYI", "PT", "Q", "RSE", "RET", "SLF", "SLOT", "SIM", "TID", "TCH", "INT", "ARG", "PTH", "TD", "FIX", "ERA", "PD", "PGH", "PL", "TRY", "FLY", "NPY", "PERF", "FURB", "LOG", "RUF"]
+ignore = ["ANN101", "ANN102", "COM812", "ISC001"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+exclude = [
+    "certeus/",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--verbose",
+]

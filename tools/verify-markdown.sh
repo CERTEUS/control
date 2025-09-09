@@ -1,4 +1,19 @@
 #!/usr/bin/env bash
+# +=====================================================================+
+# |                          CERTEUS                                    |
+# +=====================================================================+
+# | FILE: tools/verify-markdown.sh                                     |
+# | ROLE: Shell script for automation                                  |
+# | PLIK: tools/verify-markdown.sh                                     |
+# | ROLA: Skrypt shell do automatyzacji                                |
+# +=====================================================================+
+
+# PL: Moduł zapewniający funkcjonalność verify-markdown
+# EN: Module providing verify-markdown functionality
+
+set -Eeuo pipefail
+trap 'echo "[ERR] $0 line:$LINENO status:$?" >&2' ERR
+
 set -Eeuo pipefail
 # Wrapper delegujący do wersji w submodule CERTEUS.
 DIR="$(cd "$(dirname "$0")" && pwd)"

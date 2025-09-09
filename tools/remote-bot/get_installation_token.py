@@ -1,4 +1,21 @@
 #!/usr/bin/env python3
+# +=====================================================================+
+# |                          CERTEUS                                    |
+# +=====================================================================+
+# | FILE: tools/remote-bot/get_installation_token.py                   |
+# | ROLE: Application module                                           |
+# | PLIK: tools/remote-bot/get_installation_token.py                   |
+# | ROLA: Moduł aplikacji                                              |
+# +=====================================================================+
+
+"""
+PL: Moduł zapewniający funkcjonalność get_installation_token
+
+EN: Module providing get_installation_token functionality
+"""
+
+# === IMPORTY / IMPORTS ===
+
 from __future__ import annotations
 
 import base64
@@ -32,7 +49,11 @@ def load_env_from_file(path: Path) -> dict[str, str]:
 def make_jwt(app_id: str, pem_path: Path) -> str:
     now = int(time.time())
     header = {"alg": "RS256", "typ": "JWT"}
-    payload: dict[str, Any] = {"iat": now - 60, "exp": now + 540, "iss": int(app_id) if app_id.isdigit() else app_id}
+    payload: dict[str, Any] = {
+        "iat": now - 60,
+        "exp": now + 540,
+        "iss": int(app_id) if app_id.isdigit() else app_id,
+    }
     h = b64u(json.dumps(header, separators=(",", ":")).encode("utf-8"))
     p = b64u(json.dumps(payload, separators=(",", ":")).encode("utf-8"))
     signing_input = f"{h}.{p}".encode("ascii")
@@ -52,7 +73,10 @@ def main() -> int:
     jwt = make_jwt(str(app_id), Path(pem_path))
     r = requests.post(
         f"https://api.github.com/app/installations/{inst_id}/access_tokens",
-        headers={"Authorization": f"Bearer {jwt}", "Accept": "application/vnd.github+json"},
+        headers={
+            "Authorization": f"Bearer {jwt}",
+            "Accept": "application/vnd.github+json",
+        },
         timeout=20,
     )
     r.raise_for_status()
@@ -62,4 +86,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
