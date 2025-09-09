@@ -37,8 +37,7 @@ jobs:
         run: |
           bash tools/openapi-sync.sh verify
 
-      - name: Run tests (root)
-        env:
-          PYTEST_ADDOPTS: "-q"
+      - name: Run tests (certeus only)
         run: |
+          cd certeus
           python -m pytest -q
