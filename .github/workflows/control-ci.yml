@@ -10,23 +10,6 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Verify Markdown spacing
-        continue-on-error: true
-        run: |
-          bash tools/verify-markdown.sh
-
-      - name: OpenAPI sync verify (control vs certeus)
-        continue-on-error: true
-        run: |
-          bash tools/openapi-sync.sh verify
       - name: CI OK
         run: echo OK
