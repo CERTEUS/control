@@ -1,4 +1,4 @@
 [submodule "certeus"]
-	path = certeus
-	url = git@github.com:CERTEUS/certeus.git
-	branch = work/daily
+    path = certeus
+    url = git@github.com:CERTEUS/certeus.git
+    branch = main
