@@ -32,3 +32,8 @@ __pycache__/
 
 # Local static previews (control only)
 static/
+# Control orchestration-only repo: ignore transient dirs
+/exports/
+/out/
+/static/
+/security/
