@@ -7,6 +7,12 @@ Jeśli potrzebujesz dostępu, skontaktuj się z właścicielami organizacji.
 
 Zakres publicznych informacji celowo ograniczono.
 
+## Gałęzie i CI
+
+- Robocza gałąź: `work/daily`; stabilna: `main`.
+- CI: workflow `control-ci` checkoutuje submodule (recursive) i uruchamia testy w `certeus` (`cd certeus && pytest -q`).
+- Cięższe bramki (`ci-gates`) biegną w `certeus` na PR/main.
+
 ## Struktura repo
 
 - Produkt (kod, SDK, schematy, serwisy, klienci, dokumentacja): wyłącznie w submodule `certeus/`.
