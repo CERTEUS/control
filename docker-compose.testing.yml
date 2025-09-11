@@ -1,0 +1,172 @@
+# +=====================================================================+
+# |                 CONTROL - Testing Stack for CI/GitHub               |
+# +=====================================================================+
+# | FILE: docker-compose.testing.yml                                    |
+# | ROLE: Extended Docker stack with all testing tools for GitHub CI    |
+# +=====================================================================+
+
+networks:
+  control_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
+
+volumes:
+  control_pgdata:
+    driver: local
+  control_redis_data:
+    driver: local
+  control_minio_data:
+    driver: local
+  control_ollama_data:
+    driver: local
+
+services:
+  # === CORE INFRASTRUCTURE ===
+  postgres:
+    image: postgres:16-alpine
+    container_name: control-postgres
+    environment:
+      POSTGRES_DB: control
+      POSTGRES_USER: control
+      POSTGRES_PASSWORD: control_dev_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - control_pgdata:/var/lib/postgresql/data
+    networks:
+      - control_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U control"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  redis:
+    image: redis:7-alpine
+    container_name: control-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - control_redis_data:/data
+    networks:
+      - control_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  minio:
+    image: quay.io/minio/minio:RELEASE.2024-04-18T19-09-19Z
+    container_name: control-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: control
+      MINIO_ROOT_PASSWORD: control_dev_pass
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - control_minio_data:/data
+    networks:
+      - control_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: control-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - control_ollama_data:/root/.ollama
+    networks:
+      - control_network
+    restart: unless-stopped
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_ORIGINS=*
+
+  # === TESTING & CI ENVIRONMENT ===
+  certeus-testing:
+    build:
+      context: ./workspaces/certeus
+      dockerfile: ../../testing.Dockerfile
+    container_name: control-certeus-testing
+    volumes:
+      - ./workspaces/certeus:/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - control_network
+    restart: unless-stopped
+    environment:
+      - WORKSPACE_ROOT=/workspace
+      - CONTROL_MODE=true
+      - POSTGRES_URL=postgresql://control:control_dev_pass@postgres:5432/control
+      - REDIS_URL=redis://redis:6379
+      - MINIO_ENDPOINT=minio:9000
+      - MINIO_ACCESS_KEY=control
+      - MINIO_SECRET_KEY=control_dev_pass
+    depends_on:
+      - postgres
+      - redis
+      - minio
+      - ollama
+
+  # === MONITORING STACK ===
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: control-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./workspaces/certeus/observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./workspaces/certeus/observability/prometheus/recording_rules.yml:/etc/prometheus/recording_rules.yml:ro
+    networks:
+      - control_network
+    restart: unless-stopped
+    depends_on:
+      - certeus-testing
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: control-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+    volumes:
+      - ./workspaces/certeus/observability/grafana/provisioning/datasources/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml:ro
+      - ./workspaces/certeus/observability/grafana/provisioning/dashboards/dashboard.yml:/etc/grafana/provisioning/dashboards/dashboard.yml:ro
+      - ./workspaces/certeus/observability/grafana/certeus-slo-dashboard.json:/var/lib/grafana/dashboards/certeus-slo-dashboard.json:ro
+    networks:
+      - control_network
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+
+  # === CODE QUALITY TOOLS ===
+  sonarqube:
+    image: sonarqube:community
+    container_name: control-sonarqube
+    ports:
+      - "9002:9000"
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://postgres:5432/control
+      SONAR_JDBC_USERNAME: control
+      SONAR_JDBC_PASSWORD: control_dev_pass
+    networks:
+      - control_network
+    restart: unless-stopped
+    depends_on:
+      - postgres

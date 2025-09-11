@@ -1,0 +1,126 @@
+# +=====================================================================+
+# |                    CONTROL - Agent Configuration                    |
+# +=====================================================================+
+# | FILE: .agentconfig.yml                                            |
+# | ROLE: Central agent configuration for all projects                |
+# +=====================================================================+
+
+# === CENTRALNE KONFIGURACJA AGENTÓW / CENTRAL AGENT CONFIGURATION ===
+control:
+  workspace_root: "f:/projekty/control"
+  mode: "central_command"
+  version: "1.0.0"
+
+  # === PROJEKTY ZARZĄDZANE / MANAGED PROJECTS ===
+  projects:
+    control:
+      name: "control"
+      type: "manager"
+      path: "."
+      description: "Control workspace manager"
+      environments:
+        python: ".venv"
+        node: null
+        docker: true
+
+    certeus:
+      name: "certeus"
+      type: "product"
+      path: "workspaces/certeus"
+      description: "CERTEUS main product"
+      environments:
+        python: "workspaces/certeus/.venv"
+        node: null
+        docker: true
+      services:
+        - "postgres"
+        - "redis"
+        - "proofgate"
+        - "boundary"
+
+  # === KONFIGURACJA DOCKER / DOCKER CONFIGURATION ===
+  docker:
+    network: "control_network"
+    compose_files:
+      - "docker-compose.yml"
+      - "workspaces/certeus/infra/docker-compose.local-infra.yml"
+
+    containers:
+      postgres:
+        image: "postgres:16-alpine"
+        ports: ["5432:5432"]
+        volumes: ["infra_pgdata:/var/lib/postgresql/data"]
+
+      redis:
+        image: "redis:7-alpine"
+        ports: ["6379:6379"]
+
+      proofgate:
+        build: "workspaces/certeus/infra/services/proofgate"
+        ports: ["8081:8081"]
+
+      boundary:
+        build: "workspaces/certeus/infra/services/boundary_service"
+        ports: ["8082:8082"]
+
+      codex:
+        image: "certeus/codex:latest"
+        ports: ["1455:1455"]
+
+      ollama:
+        image: "ollama/ollama:latest"
+        ports: ["11434:11434"]
+
+  # === KONFIGURACJA AGENTÓW / AGENT CONFIGURATION ===
+  agents:
+    visibility: "full_workspace"
+    access:
+      - "all_containers"
+      - "all_projects"
+      - "all_environments"
+      - "git_operations"
+      - "package_management"
+
+    capabilities:
+      docker:
+        - "container_management"
+        - "volume_management"
+        - "network_management"
+        - "log_access"
+
+      development:
+        - "code_editing"
+        - "testing"
+        - "debugging"
+        - "deployment"
+
+      git:
+        - "branch_management"
+        - "commit_operations"
+        - "merge_operations"
+        - "remote_sync"
+
+# === ŚRODOWISKA / ENVIRONMENTS ===
+environments:
+  default_python: "3.11"
+  package_managers:
+    - "pip"
+    - "poetry"
+    - "npm"
+    - "yarn"
+
+  vscode:
+    settings_sync: true
+    extensions_sync: true
+    workspace_file: "control.code-workspace"
+
+# === BEZPIECZEŃSTWO / SECURITY ===
+security:
+  secrets_path: "internal/keys"
+  github_token_path: "internal/keys/GITHUB_TOKEN.txt"
+  ssh_keys_path: "internal/keys"
+
+  access_control:
+    agents_can_read: true
+    agents_can_write: true
+    agents_can_execute: true

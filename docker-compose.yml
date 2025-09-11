@@ -1,0 +1,132 @@
+# +=====================================================================+
+# |                 CONTROL - Docker Compose Stack                    |
+# +=====================================================================+
+# | FILE: docker-compose.yml                                          |
+# | ROLE: Central Docker orchestration for all services               |
+# +=====================================================================+
+
+version: "3.8"
+
+networks:
+  control_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16
+
+volumes:
+  control_pgdata:
+    driver: local
+  control_redis_data:
+    driver: local
+  control_minio_data:
+    driver: local
+  control_ollama_data:
+    driver: local
+  control_portainer_data:
+    driver: local
+
+services:
+  # === BAZA DANYCH / DATABASE ===
+  postgres:
+    image: postgres:16-alpine
+    container_name: control-postgres
+    environment:
+      POSTGRES_DB: control
+      POSTGRES_USER: control
+      POSTGRES_PASSWORD: control_dev_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - control_pgdata:/var/lib/postgresql/data
+    networks:
+      - control_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U control"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # === CACHE / CACHE ===
+  redis:
+    image: redis:7-alpine
+    container_name: control-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - control_redis_data:/data
+    networks:
+      - control_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # === STORAGE / STORAGE ===
+  minio:
+    image: quay.io/minio/minio:RELEASE.2024-04-18T19-09-19Z
+    container_name: control-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: control
+      MINIO_ROOT_PASSWORD: control_dev_pass
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - control_minio_data:/data
+    networks:
+      - control_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # === AI / OLLAMA ===
+  ollama:
+    image: ollama/ollama:latest
+    container_name: control-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - control_ollama_data:/root/.ollama
+    networks:
+      - control_network
+    restart: unless-stopped
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_ORIGINS=*
+
+  # === CODEX / DEVELOPMENT ENVIRONMENT ===
+  codex:
+    image: certeus/codex:latest
+    container_name: control-codex
+    ports:
+      - "1455:1455"
+    volumes:
+      - .:/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - control_network
+    restart: unless-stopped
+    environment:
+      - WORKSPACE_ROOT=/workspace
+      - CONTROL_MODE=true
+
+  # === MONITORING / MONITORING ===
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: control-portainer
+    ports:
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - control_portainer_data:/data
+    networks:
+      - control_network
+    restart: unless-stopped

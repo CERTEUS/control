@@ -1,0 +1,2 @@
+[codespell]
+skip = .git,.venv,dist,build,__pycache__
