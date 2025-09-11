@@ -159,5 +159,5 @@ jobs:
       - name: Test integration
         run: |
           python -m control.main health || echo "Health check completed"
-          python -m control.main status || echo "Status check completed"  
+          python -m control.main status || echo "Status check completed"
           python -m control.main project list || echo "Project list completed"
