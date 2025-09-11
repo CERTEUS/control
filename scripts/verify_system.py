@@ -1,3 +1,16 @@
+# +-------------------------------------------------------------+
+# | CERTEUS Control System | ForgeHeader v3 - Enterprise     |
+# | FILE: scripts/verify_system.py                            |
+# | ROLE: System verification and health check utilities      |
+# +-------------------------------------------------------------+
+
+"""
+System verification script for CERTEUS Control.
+
+This script performs comprehensive system checks to ensure all
+components are properly configured and operational.
+"""
+
 #!/usr/bin/env python3
 """
 Complete System Verification Script
@@ -13,13 +26,12 @@ from pathlib import Path
 def run_command(cmd: list[str], description: str) -> bool:
     """Run command and return success status"""
     try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+        result = subprocess.run(cmd, check=False, capture_output=True, text=True, timeout=30)
         if result.returncode == 0:
             print(f"✅ {description}")
             return True
-        else:
-            print(f"❌ {description} - FAILED: {result.stderr.strip()}")
-            return False
+        print(f"❌ {description} - FAILED: {result.stderr.strip()}")
+        return False
     except subprocess.TimeoutExpired:
         print(f"⏱️ {description} - TIMEOUT")
         return False
@@ -33,9 +45,8 @@ def check_file_exists(path: str, description: str) -> bool:
     if Path(path).exists():
         print(f"✅ {description}")
         return True
-    else:
-        print(f"❌ {description} - FILE MISSING: {path}")
-        return False
+    print(f"❌ {description} - FILE MISSING: {path}")
+    return False
 
 
 def check_python_import(module: str, description: str) -> bool:
@@ -115,12 +126,11 @@ def main():
     if success_rate >= 95:
         print("🎉 System is READY for production use!")
         return 0
-    elif success_rate >= 80:
+    if success_rate >= 80:
         print("⚠️ System is mostly ready but has some issues")
         return 1
-    else:
-        print("❌ System needs significant setup work")
-        return 2
+    print("❌ System needs significant setup work")
+    return 2
 
 
 if __name__ == "__main__":

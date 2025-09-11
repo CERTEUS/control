@@ -1,3 +1,9 @@
+# +-------------------------------------------------------------+
+# | CERTEUS Control System | ForgeHeader v3 - Enterprise     |
+# | FILE: pkg/control/migration_manager.py                                      |
+# | ROLE: Database migration utilities                                        |
+# +-------------------------------------------------------------+
+
 # +=====================================================================+
 # |                    CONTROL - Simple Migration                      |
 # +=====================================================================+
@@ -8,6 +14,19 @@
 """Simple migration manager for control workspace."""
 
 from __future__ import annotations
+
+# +-------------------------------------------------------------+
+# | CERTEUS Control System | ForgeHeader v3 - Enterprise     |
+# | FILE: pkg/control/migration_manager.py                     |
+# | ROLE: Migration management utilities for system upgrades  |
+# +-------------------------------------------------------------+
+
+"""
+Migration management utilities for CERTEUS Control system.
+
+This module provides functionality for managing system migrations,
+upgrades, and data transformations between versions.
+"""
 
 from pathlib import Path
 

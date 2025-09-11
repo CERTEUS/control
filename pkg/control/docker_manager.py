@@ -17,9 +17,8 @@ EN: Docker manager for control workspace
 from __future__ import annotations
 
 import subprocess
-import sys
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 import docker
 import yaml
@@ -122,7 +121,7 @@ class DockerManager:
 
         try:
             cmd = ["docker-compose", "-f", str(compose_file), "up", "-d"]
-            result = subprocess.run(cmd, capture_output=True, text=True, cwd=self.workspace_root)
+            result = subprocess.run(cmd, check=False, capture_output=True, text=True, cwd=self.workspace_root)
 
             if result.returncode == 0:
                 console.print("[green]✓ Stack started successfully[/green]")
@@ -147,7 +146,7 @@ class DockerManager:
 
         try:
             cmd = ["docker-compose", "-f", str(compose_file), "down"]
-            result = subprocess.run(cmd, capture_output=True, text=True, cwd=self.workspace_root)
+            result = subprocess.run(cmd, check=False, capture_output=True, text=True, cwd=self.workspace_root)
 
             if result.returncode == 0:
                 console.print("[green]✓ Stack stopped successfully[/green]")
@@ -238,7 +237,7 @@ class DockerManager:
 
         try:
             cmd = ["docker-compose", "-f", str(compose_file), "up", "-d", "--build"]
-            result = subprocess.run(cmd, capture_output=True, text=True, cwd=self.workspace_root)
+            result = subprocess.run(cmd, check=False, capture_output=True, text=True, cwd=self.workspace_root)
 
             if result.returncode == 0:
                 console.print("[green]✓ Testing stack started successfully[/green]")
@@ -273,7 +272,7 @@ class DockerManager:
 
         try:
             cmd = ["docker-compose", "-f", str(compose_file), "down", "-v"]
-            result = subprocess.run(cmd, capture_output=True, text=True, cwd=self.workspace_root)
+            result = subprocess.run(cmd, check=False, capture_output=True, text=True, cwd=self.workspace_root)
 
             if result.returncode == 0:
                 console.print("[green]✓ Testing stack stopped successfully[/green]")

@@ -22,7 +22,6 @@
   "terminal.integrated.confirmOnExit": "never",
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
-  
   // Spelling configuration
   "cSpell.language": "en,pl",
   "cSpell.enabledLanguageIds": [
@@ -60,14 +59,12 @@
     "pyproject",
     "pylance"
   ],
-
   // Python configuration
   "python.defaultInterpreterPath": "F:/projekty/control/.venv/Scripts/python.exe",
   "python.terminal.activateEnvironment": true,
   "python.analysis.autoImportCompletions": true,
   "python.analysis.diagnosticMode": "workspace",
   "python.analysis.typeCheckingMode": "basic",
-
   // Exclude from Python analysis to avoid conflicts
   "python.analysis.exclude": [
     "workspaces/**",
@@ -75,14 +72,12 @@
     ".venv/**",
     "__pycache__/**"
   ],
-
   // Multi-project workspace configuration
   "python.analysis.workspace.excludePatterns": [
     "workspaces/certeus/.venv/**",
     "workspaces/**/__pycache__/**",
     "internal/secrets/**"
   ],
-
   // Ruff configuration
   "ruff.path": [
     "F:/projekty/control/.venv/Scripts/ruff.exe"
@@ -90,7 +85,6 @@
   "ruff.interpreter": [
     "F:/projekty/control/.venv/Scripts/python.exe"
   ],
-
   // File associations and exclusions
   "files.exclude": {
     "**/.git": true,
@@ -103,7 +97,6 @@
     "workspaces/**/__pycache__": true,
     "internal/secrets": true
   },
-
   // Search exclusions
   "search.exclude": {
     "**/.git": true,
@@ -114,7 +107,6 @@
     "workspaces/**/__pycache__": true,
     "internal/secrets/**": true
   },
-
   // Watcher exclusions for performance
   "files.watcherExclude": {
     "**/.git/objects/**": true,
@@ -126,34 +118,29 @@
     "workspaces/**/__pycache__/**": true,
     "internal/secrets/**": true
   },
-
   // Editor settings
-  "editor.rulers": [100],
+  "editor.rulers": [
+    100
+  ],
   "editor.insertSpaces": true,
   "editor.tabSize": 4,
-
-  // Git configuration  
+  // Git configuration
   "git.ignoreLimitWarning": true,
-
   // Terminal configuration
   "terminal.integrated.cwd": "${workspaceFolder}",
   "terminal.integrated.env.windows": {
     "PYTHONPATH": "${workspaceFolder}"
   },
-
   // Pylance specific settings
   "pylance.insidersChannel": "off",
-
   // Testing
   "python.testing.pytestEnabled": true,
   "python.testing.unittestEnabled": false,
   "python.testing.pytestArgs": [
     "tests"
   ],
-
   // Formatting
   "python.formatting.provider": "none",
-
   // Black Formatter configuration
   "black-formatter.interpreter": [
     "F:/projekty/control/.venv/Scripts/python.exe"
@@ -163,7 +150,6 @@
   ],
   "black-formatter.importStrategy": "fromEnvironment",
   "black-formatter.showNotifications": "off",
-
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.formatOnSave": true,

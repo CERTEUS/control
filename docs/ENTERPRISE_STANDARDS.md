@@ -1,7 +1,3 @@
-# +=====================================================================+
-# |                    ENTERPRISE DEVELOPMENT STANDARDS                 |
-# +=====================================================================+
-
 # CERTEUS Control - Enterprise Development Standards v4.0
 
 ## 📋 OVERVIEW
@@ -11,12 +7,14 @@ This document defines enterprise-grade development standards for the CERTEUS Con
 ## 🔧 TECHNICAL REQUIREMENTS
 
 ### Python Standards
+
 - **Python Version**: 3.11+ (LTS support)
 - **Type Hints**: Mandatory for all public APIs
 - **Code Coverage**: Minimum 90% for critical modules
 - **Performance**: Sub-100ms response time for core operations
 
 ### Code Quality Gates
+
 - **Linting**: Ruff (zero warnings policy)
 - **Formatting**: Black/Ruff (automated)
 - **Type Checking**: MyPy (strict mode)
@@ -24,6 +22,7 @@ This document defines enterprise-grade development standards for the CERTEUS Con
 - **Documentation**: Docstrings for all public functions
 
 ### Testing Standards
+
 - **Unit Tests**: 100% coverage for business logic
 - **Integration Tests**: End-to-end workflow validation
 - **Performance Tests**: Load testing for critical paths
@@ -32,7 +31,8 @@ This document defines enterprise-grade development standards for the CERTEUS Con
 ## 🏗️ ARCHITECTURE PRINCIPLES
 
 ### Separation of Concerns
-```
+
+```text
 pkg/control/          # Core control logic
 workspaces/certeus/   # Certeus-specific implementation
 internal/             # Internal tooling & secrets
@@ -41,6 +41,7 @@ docs/                # Documentation
 ```
 
 ### Enterprise Patterns
+
 - **Command Pattern**: All CLI operations
 - **Repository Pattern**: Data access abstraction
 - **Strategy Pattern**: Pluggable backends
@@ -49,12 +50,17 @@ docs/                # Documentation
 ## 🔒 SECURITY REQUIREMENTS
 
 ### Secrets Management
+
 - No secrets in code or configuration files
 - Environment variables for sensitive data
 - Encrypted storage for production secrets
 - Regular secret rotation (90 days max)
 
 ### Access Control
+
+- Role-based access control (RBAC)
+- Multi-factor authentication for production
+- Audit logging for all administrative actions
 - Role-based access control (RBAC)
 - Multi-factor authentication for production
 - Audit logging for all administrative actions

@@ -270,28 +270,12 @@ control cache rebuild
 - 📖 **Documentation** — Docstrings for all public APIs
 - 🔒 **Security** — Security-first development practices
 
-## 📞 **Support & Community**
-
-### **Enterprise Support**
-
-- 📧 **Email**: support@certeus.com
-- 💬 **Slack**: [CERTEUS Workspace](https://certeus.slack.com)
-- 📖 **Documentation**: [docs.certeus.com](https://docs.certeus.com)
-- 🐛 **Issues**: [GitHub Issues](https://github.com/CERTEUS/control/issues)
-
-### **Community Resources**
-
-- 🌟 **Best Practices Guide** — `docs/best_practices.md`
-- 🔧 **Troubleshooting** — `docs/troubleshooting.md`
-- 📋 **FAQ** — `docs/faq.md`
-- 🎥 **Video Tutorials** — Available on enterprise portal
-
 ---
 
 <div align="center">
 
 **Built with ❤️ by CERTEUS Enterprise Team**
 
-[Website](https://certeus.com) • [Documentation](https://docs.certeus.com) • [Community](https://community.certeus.com)
+*Enterprise-grade workspace orchestration platform*
 
 </div>
