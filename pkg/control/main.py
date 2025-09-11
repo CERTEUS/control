@@ -18,11 +18,20 @@ EN: Control workspace management module for main
 # === IMPORTY / IMPORTS ===
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
 import click
 from rich.console import Console
+
+# Windows UTF-8 support
+if sys.platform.startswith("win"):
+    os.environ.setdefault("PYTHONIOENCODING", "utf-8")
+    if hasattr(sys, "stdout") and hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+    if hasattr(sys, "stderr") and hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8")
 
 from .git_manager import GitManager
 from .github_manager import GitHubManager
